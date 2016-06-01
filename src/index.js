@@ -176,7 +176,7 @@ var MaskedInput = React.createClass({
       }
     }
     else {
-      this.mask.setValue(e.clipboardData.getData('Text'));
+      this.mask.setValue(e.clipboardData.getData('Text'))
       var value = this._getDisplayValue()
       e.target.value = value
       if (value) {
@@ -189,11 +189,11 @@ var MaskedInput = React.createClass({
     var value = this.mask.getValue()
     return value === this.mask.emptyValue ? '' : value
   },
-  
+
   focus() {
     this.input.focus();
   },
-  
+
   blur() {
     this.input.blur();
   },
