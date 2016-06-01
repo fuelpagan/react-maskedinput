@@ -87,5 +87,80 @@ describe('MaskedInput', () => {
 
     cleanup(el)
   })
-})
 
+  describe('testing full value change', () => {
+    const el = setup()
+    let ref = null
+    let mask = '(111) 111-1111'
+    let value = ''
+
+    function render() {
+      ReactDOM.render(
+        <MaskedInput
+          ref={(r) => {
+            if (r) ref = r
+          }}
+          mask={mask}
+          value={value}
+        />,
+        el
+      )
+    }
+
+    // keeping the same element to simulate a user changing between different autofill options and selecting different ones.
+    render();
+    let input = ReactDOM.findDOMNode(ref)
+
+    // initial state
+    it('should have the expected initial state', () => {
+      expect(input.value).toBe('')
+      expect(input.placeholder).toBe('(___) ___-____')
+      expect(input.size).toBe(14)
+      expect(input.selectionStart).toBe(0)
+    })
+
+    it('should handle updating value with formatting', () => {
+      value = '(432) 543-9876'
+
+      render();
+      input = ReactDOM.findDOMNode(ref)
+
+      // new state
+      expect(input.value).toBe('(432) 543-9876')
+      expect(input.size).toBe(14)
+      expect(input.selectionStart).toBe(14)
+    })
+
+    it('should handle updating value without formatting', () => {
+
+      value = '3454521234'
+
+      render();
+      input = ReactDOM.findDOMNode(ref)
+
+      // new state
+      expect(input.value).toBe('(345) 452-1234')
+      expect(input.size).toBe(14)
+      expect(input.selectionStart).toBe(14)
+
+    })
+
+    it('should handle updating value with slightly different formatting', () => {
+
+      // please note: if 789-123-4321, the input will fail because it is taking the - as an input
+      value = '789 123-4321'
+
+      render();
+      input = ReactDOM.findDOMNode(ref)
+
+      // new state
+      expect(input.value).toBe('(789) 123-4321')
+      expect(input.size).toBe(14)
+      expect(input.selectionStart).toBe(14)
+
+    })
+
+    cleanup(el)
+  })
+
+})
