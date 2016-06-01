@@ -1,5 +1,3 @@
-'use strict';
-
 var React = require('react')
 var {getSelection, setSelection} = require('react/lib/ReactInputSelection')
 
@@ -43,10 +41,32 @@ var MaskedInput = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    if (this.props.value !== nextProps.value) {
+      this.mask.setValue(nextProps.value)
+    }
     if (this.props.mask !== nextProps.mask) {
       this.mask.setPattern(nextProps.mask, {value: this.mask.getRawValue()})
     }
     this.mask.setValue(nextProps.value);
+  },
+
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.mask !== this.props.mask) {
+      this._updatePattern(nextProps)
+    }
+  },
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.mask !== this.props.mask && this.mask.selection.start) {
+      this._updateInputSelection()
+    }
+  },
+
+  _updatePattern: function(props) {
+    this.mask.setPattern(props.mask, {
+      value: this.mask.getRawValue(),
+      selection: getSelection(this.input)
+    });
   },
 
   _updateMaskSelection() {
@@ -61,7 +81,7 @@ var MaskedInput = React.createClass({
     // console.log('onChange', JSON.stringify(getSelection(this.input)), e.target.value)
 
     var maskValue = this.mask.getValue()
-    if (e.target.value != maskValue) {
+    if (e.target.value !== maskValue) {
       // Cut or delete operations will have shortened the value
       if (e.target.value.length < maskValue.length) {
         var sizeDiff = maskValue.length - e.target.value.length
@@ -89,7 +109,9 @@ var MaskedInput = React.createClass({
       if (this.mask.undo()) {
         e.target.value = this._getDisplayValue()
         this._updateInputSelection()
-        this.props.onChange(e)
+        if (this.props.onChange) {
+          this.props.onChange(e)
+        }
       }
       return
     }
@@ -98,12 +120,14 @@ var MaskedInput = React.createClass({
       if (this.mask.redo()) {
         e.target.value = this._getDisplayValue()
         this._updateInputSelection()
-        this.props.onChange(e)
+        if (this.props.onChange) {
+          this.props.onChange(e)
+        }
       }
       return
     }
 
-    if (e.key == 'Backspace') {
+    if (e.key === 'Backspace') {
       e.preventDefault()
       this._updateMaskSelection()
       if (this.mask.backspace()) {
@@ -112,7 +136,9 @@ var MaskedInput = React.createClass({
         if (value) {
           this._updateInputSelection()
         }
-        this.props.onChange(e)
+        if (this.props.onChange) {
+          this.props.onChange(e)
+        }
       }
     }
   },
@@ -121,14 +147,17 @@ var MaskedInput = React.createClass({
     // console.log('onKeyPress', JSON.stringify(getSelection(this.input)), e.key, e.target.value)
 
     // Ignore modified key presses
-    if (e.metaKey || e.altKey || e.ctrlKey) { return }
+    // Ignore enter key to allow form submission
+    if (e.metaKey || e.altKey || e.ctrlKey || e.key === 'Enter') { return }
 
     e.preventDefault()
     this._updateMaskSelection()
     if (this.mask.input(e.key)) {
       e.target.value = this.mask.getValue()
       this._updateInputSelection()
-      this.props.onChange(e)
+      if (this.props.onChange) {
+        this.props.onChange(e)
+      }
     }
   },
 
@@ -142,7 +171,17 @@ var MaskedInput = React.createClass({
       e.target.value = this.mask.getValue()
       // Timeout needed for IE
       setTimeout(this._updateInputSelection, 0)
-      this.props.onChange(e)
+      if (this.props.onChange) {
+        this.props.onChange(e)
+      }
+    }
+    else {
+      this.mask.setValue(e.clipboardData.getData('Text'))
+      var value = this._getDisplayValue()
+      e.target.value = value
+      if (value) {
+        this._updateInputSelection()
+      }
     }
     else {
       this.mask.setValue(e.clipboardData.getData('Text'));
@@ -157,6 +196,14 @@ var MaskedInput = React.createClass({
   _getDisplayValue() {
     var value = this.mask.getValue()
     return value === this.mask.emptyValue ? '' : value
+  },
+
+  focus() {
+    this.input.focus();
+  },
+
+  blur() {
+    this.input.blur();
   },
 
   render() {

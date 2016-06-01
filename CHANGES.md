@@ -1,3 +1,25 @@
+## 3.2.0 / 2016-05-24
+
+* Allow dynamic pattern updating [[martyphee][martyphee]]
+
+## 3.1.3 / 2016-05-02
+
+* Don’t call `onChange` function if undefined.
+* Update nwb to 0.9.x
+s
+## 3.1.2 / 2016-04-11
+
+* Support for React 15.x.x
+
+## 3.1.1 / 2016-03-09
+
+* Convert tooling to use [nwb](https://github.com/insin/nwb/) [[bpugh]][[bpugh]]
+* Publish `dist` files
+
+## 3.1.0 / 2016-02-11
+
+* Added support for `value` behaving as a controlled component.
+
 ## 3.0.0 / 2015-10-23
 
 **Breaking change:** Now uses a `mask` prop to define the input mask instead of `pattern`, to avoid preventing use of the the HTML5 `pattern` attribute in conjunction with the input mask.
@@ -42,3 +64,4 @@ Initial release features:
 
 [jquense]: https://github.com/jquense
 [muffinresearch]: https://github.com/muffinresearch
+[martyphee]: https://github.com/martyphee
