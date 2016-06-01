@@ -47,6 +47,7 @@ var MaskedInput = React.createClass({
     if (this.props.mask !== nextProps.mask) {
       this.mask.setPattern(nextProps.mask, {value: this.mask.getRawValue()})
     }
+    this.mask.setValue(nextProps.value);
   },
 
   componentWillUpdate(nextProps, nextState) {
@@ -88,6 +89,7 @@ var MaskedInput = React.createClass({
         this.mask.selection.end = this.mask.selection.start + sizeDiff
         this.mask.backspace()
       }
+      this.mask.setValue(e.target.value);
       var value = this._getDisplayValue()
       e.target.value = value
       if (value) {
@@ -175,6 +177,14 @@ var MaskedInput = React.createClass({
     }
     else {
       this.mask.setValue(e.clipboardData.getData('Text'))
+      var value = this._getDisplayValue()
+      e.target.value = value
+      if (value) {
+        this._updateInputSelection()
+      }
+    }
+    else {
+      this.mask.setValue(e.clipboardData.getData('Text'));
       var value = this._getDisplayValue()
       e.target.value = value
       if (value) {
