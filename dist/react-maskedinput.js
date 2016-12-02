@@ -1,12 +1,12 @@
 /*!
- * react-maskedinput 3.0.0 - https://github.com/insin/react-maskedinput
+ * react-maskedinput 3.0.2 - https://github.com/insin/react-maskedinput
  * MIT Licensed
  */
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.MaskedInput = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
 var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null)
-var $__0=   require('react-dom/lib/ReactInputSelection'),getSelection=$__0.getSelection,setSelection=$__0.setSelection
+var $__0=   require('react/lib/ReactInputSelection'),getSelection=$__0.getSelection,setSelection=$__0.setSelection
 
 var InputMask = require('inputmask-core')
 
@@ -183,7 +183,7 @@ var MaskedInput = React.createClass({displayName: "MaskedInput",
 
 module.exports = MaskedInput
 
-},{"inputmask-core":8,"react-dom/lib/ReactInputSelection":10}],2:[function(require,module,exports){
+},{"inputmask-core":8,"react/lib/ReactInputSelection":10}],2:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -897,6 +897,7 @@ module.exports = InputMask
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
+ * @providesModule ReactDOMSelection
  */
 
 'use strict';
@@ -1109,6 +1110,7 @@ module.exports = ReactDOMSelection;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
+ * @providesModule ReactInputSelection
  */
 
 'use strict';
@@ -1233,6 +1235,7 @@ module.exports = ReactInputSelection;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
+ * @providesModule getNodeForCharacterOffset
  */
 
 'use strict';
@@ -1307,6 +1310,7 @@ module.exports = getNodeForCharacterOffset;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
+ * @providesModule getTextContentAccessor
  */
 
 'use strict';
