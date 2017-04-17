@@ -2,6 +2,8 @@
 
 var React = require('react')
 var {getSelection, setSelection} = require('react/lib/ReactInputSelection')
+var createReactClass = require('create-react-class')
+var PropTypes = require('prop-types')
 
 var InputMask = require('inputmask-core')
 
@@ -16,12 +18,12 @@ function isRedo(e) {
   return (e.ctrlKey || e.metaKey) && e.keyCode === (e.shiftKey ? KEYCODE_Z : KEYCODE_Y)
 }
 
-var MaskedInput = React.createClass({
+var MaskedInput = createReactClass({
   propTypes: {
-    mask: React.PropTypes.string.isRequired,
+    mask: PropTypes.string.isRequired,
 
-    formatCharacters: React.PropTypes.object,
-    placeholderChar: React.PropTypes.string
+    formatCharacters: PropTypes.object,
+    placeholderChar: PropTypes.string
   },
 
   getDefaultProps() {
